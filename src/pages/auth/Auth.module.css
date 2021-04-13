@@ -1,0 +1,19 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+}
+
+.logo {
+    width: 300px;
+}
+
+.loginForm {
+    width: 300px;
+}
+.submitButton {
+    width: 100%;
+}
