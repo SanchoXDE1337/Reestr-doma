@@ -13,7 +13,8 @@ module.exports = {
 	},
 	rules: {
 		'func-names': 0,
-		'import/no-cycle': 'error',
+		'@typescript-eslint/await-thenable': 0,
+		'import/no-cycle': 'off',
 		'import/no-extraneous-dependencies': 0,
 		'@typescript-eslint/ban-types': 0,
 		'import/prefer-default-export': 0,
@@ -28,6 +29,8 @@ module.exports = {
 		'import/no-duplicates': 'error',
 		'no-shadow': 'error',
 		'no-console': 'off',
+		'no-param-reassign': 'off',
+		'spaced-comment': 'off',
 		'no-use-before-define': 'off',
 		'@typescript-eslint/unbound-method': 0,
 		'@typescript-eslint/no-unsafe-assignment': 0,
