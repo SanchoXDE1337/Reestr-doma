@@ -10,12 +10,12 @@ import { selectToken } from './store/reducers';
 const URL = 'http://test-alpha.reestrdoma.ru/api';
 
 const App: React.FC = () => {
-	const [data, setData] = useState<any | null>(null);
+	const [companies, setCompanies] = useState<any[] | undefined>(undefined);
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
 	const token = useSelector(selectToken);
 
-	const fetchData: () => void = useCallback(async () => {
+	const fetchCompanies: () => void = useCallback(async () => {
 		if (token) {
 			setIsLoaded(false);
 			try {
@@ -24,8 +24,8 @@ const App: React.FC = () => {
 						Authorization: `Bearer ${token}`,
 					},
 				});
-				setData(res);
-				console.log(data);
+				console.log('companies: ', res.data?.data);
+				setCompanies(res.data?.data);
 			} catch (e) {
 				console.log(e);
 			}
@@ -33,14 +33,14 @@ const App: React.FC = () => {
 		setIsLoaded(true);
 	}, [token]);
 
-	useEffect(() => fetchData(), [fetchData]);
+	useEffect(() => fetchCompanies(), [fetchCompanies]);
 
 	let content;
 
 	if (!isLoaded && token) {
-		content = <Spin size="large" />;
+		content = <Spin size="large" className={classes.spinner} />;
 	} else {
-		content = data ? <CompanyList data={data} /> : <Auth />;
+		content = companies ? <CompanyList companies={companies} /> : <Auth />;
 	}
 
 	return <div className={classes.wrapper}>{content}</div>;
