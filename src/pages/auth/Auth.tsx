@@ -7,7 +7,6 @@ import logo from './logo.png';
 import classes from './Auth.module.css';
 import 'antd/dist/antd.css';
 
-
 interface ICredentials {
 	username: string;
 	password: string;
