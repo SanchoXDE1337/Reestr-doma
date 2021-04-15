@@ -17,6 +17,7 @@ module.exports = {
 		'import/no-cycle': 'off',
 		'import/no-extraneous-dependencies': 0,
 		'@typescript-eslint/ban-types': 0,
+		'@typescript-eslint/no-non-null-assertion': 0,
 		'import/prefer-default-export': 0,
 		'react-hooks/exhaustive-deps': 0,
 		'@typescript-eslint/explicit-module-boundary-types': 0,

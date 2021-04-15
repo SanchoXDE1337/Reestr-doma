@@ -1,28 +1,23 @@
-﻿import React, { useState } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+﻿import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { fetchToken, selectError } from '../../store';
 import logo from './logo.png';
 import classes from './Auth.module.css';
 import 'antd/dist/antd.css';
-import { RootState } from '../../store/store';
-import { fetchToken, selectError } from '../../store/reducers/auth/authSlice';
 
-interface IValues {
+interface ICredentials {
 	username: string;
 	password: string;
 }
-
-const URL = 'http://test-alpha.reestrdoma.ru/api';
 
 export const Auth: React.FC = () => {
 	const dispatch = useDispatch();
 
 	const authError = useSelector(selectError);
 
-	const onSubmit = async (credentials: IValues) => {
+	const onSubmit = async (credentials: ICredentials) => {
 		await dispatch(fetchToken(credentials));
 	};
 

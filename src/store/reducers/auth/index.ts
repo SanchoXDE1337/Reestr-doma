@@ -1,3 +1,3 @@
-import authReducer, { selectToken, selectError } from './authSlice';
+import authReducer, { selectToken, selectError, fetchToken } from './authSlice';
 
-export { authReducer, selectToken, selectError };
+export { authReducer, selectToken, selectError, fetchToken };

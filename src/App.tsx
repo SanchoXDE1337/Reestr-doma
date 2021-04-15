@@ -1,13 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import Cookies from 'js-cookie';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Spin } from 'antd';
+import { selectToken } from './store';
 import { Auth, CompanyList } from './pages';
+import { URL } from './constants';
 import classes from './App.module.css';
-import { selectToken } from './store/reducers';
-
-const URL = 'http://test-alpha.reestrdoma.ru/api';
 
 const App: React.FC = () => {
 	const [companies, setCompanies] = useState<any[] | undefined>(undefined);
@@ -24,7 +22,6 @@ const App: React.FC = () => {
 						Authorization: `Bearer ${token}`,
 					},
 				});
-				console.log('companies: ', res.data?.data);
 				setCompanies(res.data?.data);
 			} catch (e) {
 				console.log(e);

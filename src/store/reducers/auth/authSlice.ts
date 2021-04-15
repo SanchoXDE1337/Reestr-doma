@@ -1,9 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { URL } from '../../../constants';
 import { RootState } from '../../store';
-
-const URL = 'http://test-alpha.reestrdoma.ru/api';
 
 interface ISliceState {
 	token?: string;
@@ -21,7 +20,7 @@ export const fetchToken = createAsyncThunk<
 	string,
 	{ username: string; password: string },
 	{ rejectValue: string }
->('token/fetchToken', async (credentials, thunkAPI) => {
+>('auth/fetchToken', async (credentials, thunkAPI) => {
 	try {
 		const response = await axios.post(`${URL}/login/`, credentials);
 		return response.data.data.token.access;

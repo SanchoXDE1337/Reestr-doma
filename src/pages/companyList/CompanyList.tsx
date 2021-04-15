@@ -1,14 +1,19 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Select, Table, Tag, Button } from 'antd';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-// import Cookies from 'js-cookie';
+import { Select, Table } from 'antd';
 import { useSelector } from 'react-redux';
+import { selectToken } from '../../store';
+import { Paginator } from './Paginator';
+import { URL } from '../../constants';
 import classes from './CompanyList.module.css';
-import { selectToken } from '../../store/reducers';
 
 interface IProps {
 	companies: any[];
+}
+
+interface IHouseList {
+	data: any[];
+	pageLimit: number;
 }
 
 const columns = [
@@ -30,32 +35,26 @@ const columns = [
 	},
 ];
 
-const URL = 'http://test-alpha.reestrdoma.ru/api';
-
 export const CompanyList: React.FC<IProps> = ({ companies }) => {
-	const [houseList, setHouseList] = useState<{ data: any[]; pageLimit: number }>({
+	const [houseList, setHouseList] = useState<IHouseList>({
 		data: [],
 		pageLimit: 1,
 	});
 	const [selectedId, setSelectedId] = useState<number | undefined>(undefined);
 	const [pageNum, setPageNum] = useState(1);
 
-	const token = useSelector(selectToken)!;
-
-	const { Option } = Select;
+	const token = useSelector(selectToken);
 
 	const fetchData: () => void = useCallback(async () => {
 		try {
-			console.log('fetch id', selectedId);
 			const res = await axios.get(
 				`${URL}/reestrdoma/company/houses/${selectedId!}/?page=${pageNum}&perPage=${8}`,
 				{
 					headers: {
-						Authorization: `Bearer ${token}`,
+						Authorization: `Bearer ${token!}`,
 					},
 				},
 			);
-			console.log(res.data.data);
 			setHouseList({ data: res.data.data, pageLimit: res.data.links.lastPage });
 		} catch (e) {
 			console.log(e);
@@ -65,7 +64,6 @@ export const CompanyList: React.FC<IProps> = ({ companies }) => {
 	useEffect(() => {
 		if (selectedId) {
 			fetchData();
-			console.log(houseList);
 		}
 	}, [fetchData]);
 
@@ -77,6 +75,8 @@ export const CompanyList: React.FC<IProps> = ({ companies }) => {
 		setPageNum(1);
 		setSelectedId(id);
 	};
+
+	const { Option } = Select;
 
 	return (
 		<div className={classes.wrapper}>
@@ -100,23 +100,12 @@ export const CompanyList: React.FC<IProps> = ({ companies }) => {
 					pagination={false}
 				/>
 				{houseList.data.length ? (
-					<div>
-						<Button
-							type="text"
-							icon={<LeftOutlined />}
-							onClick={handleDecrease}
-							disabled={pageNum === 1}
-						/>
-						<Tag color="geekblue" className={classes.counter}>
-							{pageNum}
-						</Tag>
-						<Button
-							type="text"
-							icon={<RightOutlined />}
-							onClick={handleIncrease}
-							disabled={pageNum === houseList.pageLimit}
-						/>
-					</div>
+					<Paginator
+						currentPage={pageNum}
+						pageLimit={houseList.pageLimit}
+						decreaseHandler={handleDecrease}
+						increaseHandler={handleIncrease}
+					/>
 				) : null}
 			</div>
 		</div>
