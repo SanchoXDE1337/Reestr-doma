@@ -48,14 +48,19 @@ export const CompanyList: React.FC<IProps> = ({ companies }) => {
 	const fetchData: () => void = useCallback(async () => {
 		try {
 			const res = await axios.get(
-				`${URL}/reestrdoma/company/houses/${selectedId!}/?page=${pageNum}&perPage=${8}`,
+				`${URL}/reestrdoma/company/houses/${selectedId!}/?page=${pageNum}&perPage=${10}`,
 				{
 					headers: {
 						Authorization: `Bearer ${token!}`,
 					},
 				},
 			);
-			setHouseList({ data: res.data.data, pageLimit: res.data.links.lastPage });
+			const rawData = res.data.data;
+			const data = rawData.map((item: any) => ({
+				...item,
+				createdAt: new Date(item.createdAt).toLocaleDateString('ru-RU'),
+			}));
+			setHouseList({ data, pageLimit: res.data.links.lastPage });
 		} catch (e) {
 			console.log(e);
 		}
@@ -92,13 +97,7 @@ export const CompanyList: React.FC<IProps> = ({ companies }) => {
 				))}
 			</Select>
 			<div className={classes.tableContainer}>
-				<Table
-					rowKey="uid"
-					columns={columns}
-					dataSource={houseList.data}
-					size="middle"
-					pagination={false}
-				/>
+				<Table rowKey="uid" columns={columns} dataSource={houseList.data} pagination={false} />
 				{houseList.data.length ? (
 					<Paginator
 						currentPage={pageNum}

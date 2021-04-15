@@ -6,13 +6,13 @@ import { RootState } from '../../store';
 
 interface ISliceState {
 	token?: string;
-	status: string;
+	status: 'idle' | 'loading' | 'succeeded' | 'failed';
 	error?: string;
 }
 
 const initialState: ISliceState = {
 	token: Cookies.get('token'),
-	status: 'idle', //enum
+	status: 'idle',
 	error: '',
 };
 
